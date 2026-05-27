@@ -28,12 +28,17 @@ CLASS zcl_bc_hlapi_demo_api DEFINITION
     METHODS set_led_color
       IMPORTING i_color          TYPE string
                 i_text           TYPE string OPTIONAL
-      RETURNING VALUE(r_success) TYPE abap_boolean.
+      RETURNING VALUE(r_result) TYPE zif_bc_hlapi_demo_def=>ty_hlapi_result.
+
+    METHODS set_message
+      IMPORTING i_text          TYPE string
+                i_author        TYPE string OPTIONAL
+      RETURNING VALUE(r_result) TYPE zif_bc_hlapi_demo_def=>ty_hlapi_result.
 
 
+    METHODS get_weight
+      RETURNING VALUE(r_result) TYPE zif_bc_hlapi_demo_def=>ty_hlapi_result.
 
-  PROTECTED SECTION.
-  PRIVATE SECTION.
 ENDCLASS.
 
 
@@ -64,19 +69,62 @@ CLASS zcl_bc_hlapi_demo_api IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD set_led_color.
+    " check color
+    DATA(colors) = get_led_colors( ).
+    DATA(color) = VALUE #( colors[ table_line = i_color ] OPTIONAL ).
+    IF color IS INITIAL.
+      r_result-message = |color `{ i_color }` is invalid|.
+      RETURN.
+    ENDIF.
+
+    " prepare connector
     DATA(connector) = get_connector( ).
-    DATA(content) = VALUE zif_bc_hlapi_demo_def=>ty_led_color_message(
-        color = i_color
-        text  = COND #( WHEN i_text IS NOT INITIAL
-                        THEN i_text
-                        ELSE get_user_context( ) )
-    ).
+    DATA(payload) = VALUE zif_bc_hlapi_demo_def=>ty_led_color_payload( color = color
+                                                                       text  = COND #( WHEN i_text IS NOT INITIAL
+                                                                                       THEN i_text
+                                                                                       ELSE get_user_context( ) ) ).
 
-
-    r_success = connector->http_post( i_content_text = to_json( content )
-                                      i_content_type = connector->con_content_type-json
-                                      i_path         = zif_bc_hlapi_demo_def=>con_api_path-set_led_color ).
+    " execute
+    IF connector->http_post( i_content_text = to_json( payload )
+                             i_content_type = connector->con_content_type-json
+                             i_path         = zif_bc_hlapi_demo_def=>con_api_path-set_led_color ) = abap_true.
+      r_result-success = abap_true.
+      r_result-message = |The LED color was set to '{ payload-color }'|.
+    ELSE.
+      r_result-message = |Error while setting the LED color to '{ payload-color }'|.
+    ENDIF.
   ENDMETHOD.
+
+  METHOD set_message.
+    " prepare connector
+    DATA(connector) = get_connector( ).
+    DATA(payload) = VALUE zif_bc_hlapi_demo_def=>ty_message_payload( text   = i_text
+                                                                     author = COND #( WHEN i_author IS NOT INITIAL
+                                                                                      THEN i_author
+                                                                                      ELSE get_user_context( ) ) ).
+
+    " execute
+    IF connector->http_post( i_content_text = to_json( payload )
+                             i_content_type = connector->con_content_type-json
+                             i_path         = zif_bc_hlapi_demo_def=>con_api_path-set_message ) = abap_true.
+      r_result-success = abap_true.
+      r_result-message = |The shopfloor message was set to '{ payload-text }' (author: '{ payload-author }')|.
+    ELSE.
+      r_result-message = |Error while setting the shopfloor message|.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD get_weight.
+    DATA(connector) = get_connector( ).
+    IF connector->http_get( i_path = zif_bc_hlapi_demo_def=>con_api_path-get_weight ) = abap_true.
+      r_result-success = abap_true.
+      r_result-value   = connector->get_http_content( ).
+      r_result-message = |Current weight = '{ r_result-value }'|.
+    ELSE.
+      r_result-message = |Error while get the current weight.|.
+    ENDIF.
+  ENDMETHOD.
+
 
   METHOD to_json.
     r_json = /ui2/cl_json=>serialize( i_data ).
@@ -91,13 +139,17 @@ METHOD get_user_context.
   r_context = |{ user } - { tenant } - { date } - { time }|.
 ENDMETHOD.
 
-METHOD if_oo_adt_classrun~main.
-  " LED DEMO
-  DATA(color) = get_random_string( get_led_colors( ) ).
-  IF set_led_color( color ) = abap_true.
-    out->write( |LED color { color } set| ).
-  ELSE.
-    out->write( |Error while setting LED color { color }| ).
-  ENDIF.
-ENDMETHOD.
+  METHOD if_oo_adt_classrun~main.
+    " LED DEMO
+    DATA(color) = get_random_string( get_led_colors( ) ).
+    IF set_led_color( color )-success = abap_true.
+      out->write( |LED color { color } set| ).
+    ELSE.
+      out->write( |Error while setting LED color { color }| ).
+    ENDIF.
+  ENDMETHOD.
+
+
+
+
 ENDCLASS.
