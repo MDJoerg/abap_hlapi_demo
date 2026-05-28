@@ -1,0 +1,16 @@
+services:
+    
+  nodered:
+    image: nodered/node-red:latest
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Berlin
+    expose:
+      - 1880
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./data/nodered:/data  
+      - ./data/files:/files
+
+volumes: {}

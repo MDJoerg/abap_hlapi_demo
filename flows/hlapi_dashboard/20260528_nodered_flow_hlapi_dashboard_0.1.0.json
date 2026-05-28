@@ -1,0 +1,837 @@
+[
+    {
+        "id": "e1c50d1cb5094ce0",
+        "type": "tab",
+        "label": "BC HLAPI Demo",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a0fad49263c4446b",
+        "type": "group",
+        "z": "e1c50d1cb5094ce0",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "994defdd6bc5eca3",
+            "497e1c24c9951121",
+            "a3a6ac861abcfb42",
+            "73138ddf191ae674",
+            "37df4adc6de505cc",
+            "ea28b577e20fd259",
+            "9389bd7c61d74847"
+        ],
+        "x": 134,
+        "y": 699,
+        "w": 732,
+        "h": 222
+    },
+    {
+        "id": "daa2c40ac751bcfa",
+        "type": "group",
+        "z": "e1c50d1cb5094ce0",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "c1a8c97e52a74ed2",
+            "e671e5248cf07c07",
+            "38de0fc380bf7831",
+            "30facb8e18fb270d",
+            "9c0f827a9a2fbe73",
+            "cd0e6b7364b5918d",
+            "0fe3b83013869ed4",
+            "fc5092599238c40b",
+            "c93ce6f50e5e02d1"
+        ],
+        "x": 134,
+        "y": 59,
+        "w": 732,
+        "h": 262
+    },
+    {
+        "id": "e3f441651904243a",
+        "type": "group",
+        "z": "e1c50d1cb5094ce0",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "40ab6f2c3899b408",
+            "d3fb10cf5448e107",
+            "c58da321e78ac80d",
+            "98a4ec23dbc91bdd",
+            "0abc46c16f646fdd",
+            "48c2efe4ef1dbc50",
+            "82d6b923e7a4f528",
+            "d71e8d2bcd777596"
+        ],
+        "x": 134,
+        "y": 379,
+        "w": 732,
+        "h": 262
+    },
+    {
+        "id": "c1a8c97e52a74ed2",
+        "type": "ui-led",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "name": "",
+        "group": "21108d7456eb3b0f",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "flex-end",
+        "states": [
+            {
+                "value": "green",
+                "valueType": "str",
+                "color": "#00ff00"
+            },
+            {
+                "value": "red",
+                "valueType": "str",
+                "color": "#ff0000"
+            },
+            {
+                "value": "yellow",
+                "valueType": "str",
+                "color": "#ffff80"
+            },
+            {
+                "value": "grey",
+                "valueType": "str",
+                "color": "#c0c0c0"
+            },
+            {
+                "value": "gray",
+                "valueType": "str",
+                "color": "#c0c0c0"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 750,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "e671e5248cf07c07",
+        "type": "http in",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "name": "setLEDColor",
+        "url": "/becSetColorLED",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                "38de0fc380bf7831",
+                "30facb8e18fb270d",
+                "9c0f827a9a2fbe73",
+                "cd0e6b7364b5918d",
+                "fc5092599238c40b"
+            ]
+        ]
+    },
+    {
+        "id": "38de0fc380bf7831",
+        "type": "http response",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 480,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "30facb8e18fb270d",
+        "type": "debug",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "name": "setLED",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "9c0f827a9a2fbe73",
+        "type": "function",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "name": "extract color",
+        "func": "msg.payload = msg.payload.COLOR;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 280,
+        "wires": [
+            [
+                "c1a8c97e52a74ed2"
+            ]
+        ]
+    },
+    {
+        "id": "cd0e6b7364b5918d",
+        "type": "ui-text",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "group": "21108d7456eb3b0f",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Kontext",
+        "label": "Kontext",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "style": true,
+        "font": "",
+        "fontSize": "16",
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.TEXT",
+        "valueType": "msg",
+        "x": 760,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "0fe3b83013869ed4",
+        "type": "comment",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "name": "Main Board",
+        "info": "",
+        "x": 230,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "994defdd6bc5eca3",
+        "type": "ui-slider",
+        "z": "e1c50d1cb5094ce0",
+        "g": "a0fad49263c4446b",
+        "group": "333fd018b2ab642d",
+        "name": "Scale Input",
+        "label": "Weight",
+        "tooltip": "",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "outs": "all",
+        "topic": "weight",
+        "topicType": "msg",
+        "thumbLabel": "true",
+        "showTicks": "always",
+        "min": 0,
+        "max": "1000",
+        "step": 1,
+        "className": "",
+        "iconPrepend": "",
+        "iconAppend": "",
+        "color": "",
+        "colorTrack": "",
+        "colorThumb": "",
+        "showTextField": false,
+        "x": 230,
+        "y": 800,
+        "wires": [
+            [
+                "ea28b577e20fd259"
+            ]
+        ]
+    },
+    {
+        "id": "497e1c24c9951121",
+        "type": "ui-chart",
+        "z": "e1c50d1cb5094ce0",
+        "g": "a0fad49263c4446b",
+        "group": "333fd018b2ab642d",
+        "name": "",
+        "label": "Waage",
+        "order": 2,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "1000",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "2",
+        "removeOlderUnit": "60",
+        "removeOlderPoints": "",
+        "colors": [
+            "#0095ff",
+            "#ff0000",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": 6,
+        "height": "4",
+        "className": "",
+        "interpolation": "linear",
+        "x": 780,
+        "y": 800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a3a6ac861abcfb42",
+        "type": "http in",
+        "z": "e1c50d1cb5094ce0",
+        "g": "a0fad49263c4446b",
+        "name": "getWeight",
+        "url": "/becGetWeight",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 880,
+        "wires": [
+            [
+                "73138ddf191ae674"
+            ]
+        ]
+    },
+    {
+        "id": "73138ddf191ae674",
+        "type": "function",
+        "z": "e1c50d1cb5094ce0",
+        "g": "a0fad49263c4446b",
+        "name": "getWeight",
+        "func": "msg.statusCode = 200;\nmsg.statusMessage = \"OK\";\nmsg.payload = flow.get(\"weight\") || 0;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 880,
+        "wires": [
+            [
+                "37df4adc6de505cc"
+            ]
+        ]
+    },
+    {
+        "id": "37df4adc6de505cc",
+        "type": "http response",
+        "z": "e1c50d1cb5094ce0",
+        "g": "a0fad49263c4446b",
+        "name": "http",
+        "statusCode": "200",
+        "headers": {},
+        "x": 770,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "ea28b577e20fd259",
+        "type": "function",
+        "z": "e1c50d1cb5094ce0",
+        "g": "a0fad49263c4446b",
+        "name": "storeWeight",
+        "func": "flow.set(\"weight\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 800,
+        "wires": [
+            [
+                "497e1c24c9951121"
+            ]
+        ]
+    },
+    {
+        "id": "40ab6f2c3899b408",
+        "type": "ui-text",
+        "z": "e1c50d1cb5094ce0",
+        "g": "e3f441651904243a",
+        "group": "b8fb195a43eb75e3",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Message",
+        "label": "Nachricht",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "style": true,
+        "font": "",
+        "fontSize": "24",
+        "color": "#f90667",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.TEXT",
+        "valueType": "msg",
+        "x": 760,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "d3fb10cf5448e107",
+        "type": "http in",
+        "z": "e1c50d1cb5094ce0",
+        "g": "e3f441651904243a",
+        "name": "SetMessage",
+        "url": "/becSetMessage",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 230,
+        "y": 460,
+        "wires": [
+            [
+                "40ab6f2c3899b408",
+                "c58da321e78ac80d",
+                "0abc46c16f646fdd",
+                "82d6b923e7a4f528"
+            ]
+        ]
+    },
+    {
+        "id": "c58da321e78ac80d",
+        "type": "ui-text",
+        "z": "e1c50d1cb5094ce0",
+        "g": "e3f441651904243a",
+        "group": "b8fb195a43eb75e3",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Author",
+        "label": "Autor",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "style": true,
+        "font": "",
+        "fontSize": "18",
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload.AUTHOR",
+        "valueType": "msg",
+        "x": 750,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "98a4ec23dbc91bdd",
+        "type": "ui-table",
+        "z": "e1c50d1cb5094ce0",
+        "g": "e3f441651904243a",
+        "group": "4a7834e7a6c3dee8",
+        "name": "",
+        "label": "Historie",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "maxrows": "10",
+        "passthru": false,
+        "autocols": true,
+        "showSearch": true,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 760,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0abc46c16f646fdd",
+        "type": "function",
+        "z": "e1c50d1cb5094ce0",
+        "g": "e3f441651904243a",
+        "name": "rebuild table",
+        "func": "let record = msg.payload;\nlet table = flow.get(\"history\") || [];\n\nif(table.length > 99 ) table.pop();\n\nrecord.TIMESTAMP = new Date().toISOString();\ntable.unshift(record);\n\nflow.set(\"history\", table);\nmsg.payload = table;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 540,
+        "wires": [
+            [
+                "98a4ec23dbc91bdd",
+                "d71e8d2bcd777596"
+            ]
+        ]
+    },
+    {
+        "id": "48c2efe4ef1dbc50",
+        "type": "comment",
+        "z": "e1c50d1cb5094ce0",
+        "g": "e3f441651904243a",
+        "name": "Message",
+        "info": "",
+        "x": 220,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9389bd7c61d74847",
+        "type": "comment",
+        "z": "e1c50d1cb5094ce0",
+        "g": "a0fad49263c4446b",
+        "name": "Weight",
+        "info": "",
+        "x": 210,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "82d6b923e7a4f528",
+        "type": "http response",
+        "z": "e1c50d1cb5094ce0",
+        "g": "e3f441651904243a",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 480,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "d71e8d2bcd777596",
+        "type": "debug",
+        "z": "e1c50d1cb5094ce0",
+        "g": "e3f441651904243a",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "fc5092599238c40b",
+        "type": "ui-gauge",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "name": "",
+        "group": "a45c5c8409dace3f",
+        "order": 1,
+        "value": "payload.PROGRESS",
+        "valueType": "msg",
+        "width": 3,
+        "height": 3,
+        "gtype": "gauge-half",
+        "gstyle": "needle",
+        "title": "",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "30",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "70",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "105",
+                "color": "#5c74d6",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": "120",
+        "sizeThickness": "12",
+        "sizeGap": "3",
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "x": 770,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c93ce6f50e5e02d1",
+        "type": "ui-text",
+        "z": "e1c50d1cb5094ce0",
+        "g": "daa2c40ac751bcfa",
+        "group": "21108d7456eb3b0f",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Release",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "style": true,
+        "font": "",
+        "fontSize": "10",
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "Release 0.1.0 - 20260528",
+        "valueType": "str",
+        "x": 760,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "21108d7456eb3b0f",
+        "type": "ui-group",
+        "name": "Shopfloor Status",
+        "page": "c8f62d1577e141dc",
+        "width": "3",
+        "height": "4",
+        "order": 1,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "333fd018b2ab642d",
+        "type": "ui-group",
+        "name": "Waage",
+        "page": "c8f62d1577e141dc",
+        "width": 6,
+        "height": 1,
+        "order": 5,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "b8fb195a43eb75e3",
+        "type": "ui-group",
+        "name": "Info",
+        "page": "c8f62d1577e141dc",
+        "width": 6,
+        "height": "4",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "4a7834e7a6c3dee8",
+        "type": "ui-group",
+        "name": "Historie",
+        "page": "c8f62d1577e141dc",
+        "width": 6,
+        "height": 1,
+        "order": 4,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "a45c5c8409dace3f",
+        "type": "ui-group",
+        "name": "Fortschritt",
+        "page": "c8f62d1577e141dc",
+        "width": "3",
+        "height": "3",
+        "order": 3,
+        "showTitle": false,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "c8f62d1577e141dc",
+        "type": "ui-page",
+        "name": "HLAPI Shopfloor Demo",
+        "ui": "153e5b2916a92025",
+        "path": "/hlapi_demo",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "4a0ff289c0f2634f",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "153e5b2916a92025",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": true
+    },
+    {
+        "id": "4a0ff289c0f2634f",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "ceb16ce2c1b09835",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard-2-ui-led": "1.1.0",
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]
