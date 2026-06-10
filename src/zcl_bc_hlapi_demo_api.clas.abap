@@ -17,24 +17,27 @@ CLASS zcl_bc_hlapi_demo_api DEFINITION
       IMPORTING i_strings       TYPE string_table
       RETURNING VALUE(r_string) TYPE string.
 
-    METHODS get_connector RETURNING VALUE(r_connector) TYPE REF TO zcl_bc_hlapi_demo_connector.
+    METHODS get_connector    RETURNING VALUE(r_connector) TYPE REF TO zcl_bc_hlapi_demo_connector.
 
-    METHODS get_user_context RETURNING VALUE(r_context) TYPE string.
-
+    METHODS get_user_context RETURNING VALUE(r_context)   TYPE string.
 
     METHODS to_json IMPORTING i_data        TYPE data
                     RETURNING VALUE(r_json) TYPE string.
 
     METHODS set_led_color
-      IMPORTING i_color          TYPE string
-                i_text           TYPE string OPTIONAL
+      IMPORTING i_color         TYPE string
+                i_text          TYPE string OPTIONAL
       RETURNING VALUE(r_result) TYPE zif_bc_hlapi_demo_def=>ty_hlapi_result.
+
+    METHODS set_progress
+      IMPORTING i_progress      TYPE i
+      RETURNING VALUE(r_result) TYPE zif_bc_hlapi_demo_def=>ty_hlapi_result.
+
 
     METHODS set_message
       IMPORTING i_text          TYPE string
                 i_author        TYPE string OPTIONAL
       RETURNING VALUE(r_result) TYPE zif_bc_hlapi_demo_def=>ty_hlapi_result.
-
 
     METHODS get_weight
       RETURNING VALUE(r_result) TYPE zif_bc_hlapi_demo_def=>ty_hlapi_result.
@@ -114,6 +117,24 @@ CLASS zcl_bc_hlapi_demo_api IMPLEMENTATION.
     ENDIF.
   ENDMETHOD.
 
+  METHOD set_progress.
+    " prepare connector
+    DATA(connector) = get_connector( ).
+    DATA(payload) = VALUE zif_bc_hlapi_demo_def=>ty_progress_payload( progress = i_progress ).
+
+    " execute
+    IF connector->http_post( i_content_text = to_json( payload )
+                             i_content_type = connector->con_content_type-json
+                             i_path         = zif_bc_hlapi_demo_def=>con_api_path-set_progress ) = abap_true.
+      r_result-success = abap_true.
+      r_result-message = |The shopfloor progress was set to '{ i_progress }'%)|.
+    ELSE.
+      r_result-message = |Error while setting the shopfloor progress indicator|.
+    ENDIF.
+  ENDMETHOD.
+
+
+
   METHOD get_weight.
     DATA(connector) = get_connector( ).
     IF connector->http_get( i_path = zif_bc_hlapi_demo_def=>con_api_path-get_weight ) = abap_true.
@@ -148,8 +169,6 @@ ENDMETHOD.
       out->write( |Error while setting LED color { color }| ).
     ENDIF.
   ENDMETHOD.
-
-
 
 
 ENDCLASS.

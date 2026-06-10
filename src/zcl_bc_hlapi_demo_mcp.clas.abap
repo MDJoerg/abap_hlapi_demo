@@ -13,10 +13,11 @@ CLASS zcl_bc_hlapi_demo_mcp DEFINITION
                END OF co_general.
 
     CONSTANTS: BEGIN OF co_tool,
+                 get_weight              TYPE string VALUE `get_weight` ##NO_TEXT,
                  set_dashboard_led_color TYPE string VALUE `set_shopfloor_led_color` ##NO_TEXT,
                  set_dashboard_message   TYPE string VALUE `set_shopfloor_message` ##NO_TEXT,
+                 set_dashboard_progress  TYPE string VALUE `set_shopfloor_progress` ##NO_TEXT,
                  simulate_process        TYPE string VALUE `simulate_process` ##NO_TEXT,
-                 get_weight              TYPE string VALUE `get_weight` ##NO_TEXT,
                END OF co_tool.
 
     INTERFACES if_oo_adt_classrun.
@@ -48,6 +49,12 @@ CLASS zcl_bc_hlapi_demo_mcp DEFINITION
       IMPORTING !request  TYPE REF TO zcl_mcp_req_call_tool
       CHANGING  !response TYPE zif_mcp_server=>call_tool_response
       RAISING   zcx_mcp_ajson_error.
+
+    METHODS set_dashboard_progress
+      IMPORTING !request  TYPE REF TO zcl_mcp_req_call_tool
+      CHANGING  !response TYPE zif_mcp_server=>call_tool_response
+      RAISING   zcx_mcp_ajson_error.
+
 
     METHODS simulate_process
       IMPORTING !request  TYPE REF TO zcl_mcp_req_call_tool
@@ -88,7 +95,14 @@ CLASS zcl_bc_hlapi_demo_mcp IMPLEMENTATION.
         DATA(input_schema_color) = NEW zcl_mcp_schema_builder( ).
         input_schema_color->add_string( name        = `color`
                                         description = `color code as text`
+                                        enum        = get_api( )->get_led_colors( )
                                         required    = abap_true ) ##NO_TEXT.
+
+        input_schema_color->add_string(
+            name        = `context`
+            description = `optional context information for the color change e.g. the reason or the author`
+            required    = abap_false ) ##NO_TEXT.
+
 
         APPEND VALUE #(
             name         = co_tool-set_dashboard_led_color
@@ -99,8 +113,7 @@ CLASS zcl_bc_hlapi_demo_mcp IMPLEMENTATION.
         " register set message
         DATA(input_schema_message) = NEW zcl_mcp_schema_builder( ).
         input_schema_message->add_string( name        = `message`
-                                          " TODO: check spelling: diplay (typo) -> display (ABAP cleaner)
-                                          description = `Text message to diplay at shopfloor`
+                                          description = `Text message to display at shopfloor`
                                           required    = abap_true ) ##NO_TEXT.
 
         input_schema_message->add_string( name        = `author`
@@ -111,6 +124,24 @@ CLASS zcl_bc_hlapi_demo_mcp IMPLEMENTATION.
                         title        = `Set a mesaage at a dashboard`
                         description  = `Set the message text at a central dashboard. The authors name is optional`
                         input_schema = input_schema_message->to_json( )  ) TO tools ##NO_TEXT.
+
+        " register set progress
+        DATA(input_schema_progress) = NEW zcl_mcp_schema_builder( ).
+
+        input_schema_progress->add_integer(
+            name        = `progress`
+            description = `optional progress information in percent. Allowed interval 0-120`
+            required    = abap_true
+            minimum     = 0
+            maximum     = 120 )
+                                        ##NO_TEXT.
+
+        APPEND VALUE #(
+            name         = co_tool-set_dashboard_progress
+            title        = `Set the progress display at the central dashboard`
+            description  = `Set the progress in percent for the central dashboard. Allowed integer value from 9 to 120.`
+            input_schema = input_schema_progress->to_json( )  ) TO tools ##NO_TEXT.
+
 
         " register process simulation
         DATA(input_schema_wait) = NEW zcl_mcp_schema_builder( ).
@@ -145,6 +176,9 @@ CLASS zcl_bc_hlapi_demo_mcp IMPLEMENTATION.
   METHOD handle_call_tool.
     TRY.
         CASE request->get_name( ).
+          WHEN co_tool-get_weight.
+            get_weight( EXPORTING request  = request
+                        CHANGING  response = response ).
           WHEN co_tool-set_dashboard_led_color.
             set_dashboard_led_color( EXPORTING request  = request
                                      CHANGING  response = response ).
@@ -152,13 +186,13 @@ CLASS zcl_bc_hlapi_demo_mcp IMPLEMENTATION.
             set_dashboard_message( EXPORTING request  = request
                                    CHANGING  response = response ).
 
+          WHEN co_tool-set_dashboard_progress.
+            set_dashboard_progress( EXPORTING request  = request
+                                    CHANGING  response = response ).
+
           WHEN co_tool-simulate_process.
             simulate_process( EXPORTING request  = request
                               CHANGING  response = response ).
-          WHEN co_tool-get_weight.
-            get_weight( EXPORTING request  = request
-                        CHANGING  response = response ).
-
           WHEN OTHERS.
             response-error-code    = zcl_mcp_jsonrpc=>error_codes-invalid_params.
             response-error-message = |Tool { request->get_name( ) } not found.| ##NO_TEXT.
@@ -194,9 +228,31 @@ CLASS zcl_bc_hlapi_demo_mcp IMPLEMENTATION.
     ENDIF.
   ENDMETHOD.
 
+  METHOD get_weight.
+    DATA(result) = get_api( )->get_weight( ).
+    process_headless_result( EXPORTING result   = result
+                             CHANGING  response = response ).
+  ENDMETHOD.
+
   METHOD set_dashboard_led_color.
+    " get mcp parameters
     DATA(color) = to_lower( request->get_arguments( )->get_string( `color` ) ).
-    DATA(result) = get_api( )->set_led_color( color ).
+    DATA(context) = request->get_arguments( )->get_string( `context` ).
+
+    " workaround group context
+    IF context IS INITIAL.
+      DATA(path) = server-http_request->get_header_field( '~query_string' ).
+      DATA(group) = server-http_request->get_uri_parameter( name = 'group' ).
+      IF group IS NOT INITIAL.
+        context = |Group { group }|.
+      ELSE.
+        context = `unknown`.
+      ENDIF.
+    ENDIF.
+
+    " call api
+    DATA(result) = get_api( )->set_led_color( i_color    = color
+                                              i_text     = context ).
     process_headless_result( EXPORTING result   = result
                              CHANGING  response = response ).
   ENDMETHOD.
@@ -211,11 +267,14 @@ CLASS zcl_bc_hlapi_demo_mcp IMPLEMENTATION.
                              CHANGING  response = response ).
   ENDMETHOD.
 
-  METHOD get_weight.
-    DATA(result) = get_api( )->get_weight( ).
+  METHOD set_dashboard_progress.
+    DATA(progress) = request->get_arguments( )->get_integer( `progress` ).
+    DATA(result) = get_api( )->set_progress( i_progress    = progress ).
     process_headless_result( EXPORTING result   = result
                              CHANGING  response = response ).
   ENDMETHOD.
+
+
 
 
   METHOD simulate_process.
@@ -245,7 +304,6 @@ CLASS zcl_bc_hlapi_demo_mcp IMPLEMENTATION.
       out->write( `MCP Server not installed` ) ##NO_TEXT.
     ENDIF.
   ENDMETHOD.
-
 
 
 ENDCLASS.
