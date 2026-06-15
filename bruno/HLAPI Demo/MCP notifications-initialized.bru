@@ -1,0 +1,18 @@
+meta {
+  name: MCP notifications/initialized
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{SAP_URL}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "method": "notifications/initialized",
+    "jsonrpc": "2.0"
+  }
+}

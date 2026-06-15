@@ -1,0 +1,26 @@
+meta {
+  name: MCP tools/call
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{SAP_URL}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "method": "tools/call",
+    "params": {
+      "name": "set_shopfloor_led_color",
+      "arguments": {
+        "color": "red",
+        "context": "Bruno Demo"
+      }
+    },
+    "jsonrpc": "2.0",
+    "id": 3
+  }
+}

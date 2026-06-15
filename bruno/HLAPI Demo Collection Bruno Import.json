@@ -1,0 +1,175 @@
+{
+  "name": "HLAPI Demo",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "MCP initialize",
+      "filename": "MCP initialize.bru",
+      "seq": 1,
+      "request": {
+        "url": "{{SAP_URL}}",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"method\": \"initialize\",\n  \"params\": {\n    \"protocolVersion\": \"2025-11-25\",\n    \"capabilities\": {},\n    \"clientInfo\": {\n      \"name\": \"lmstudio-mcp-server-session\",\n      \"version\": \"1.0.0\"\n    }\n  },\n  \"jsonrpc\": \"2.0\",\n  \"id\": 0\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "MCP notifications/initialized",
+      "filename": "MCP notifications-initialized.bru",
+      "seq": 2,
+      "request": {
+        "url": "{{SAP_URL}}",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"method\": \"notifications/initialized\",\n  \"jsonrpc\": \"2.0\"\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "MCP tools/list",
+      "filename": "MCP tools-list.bru",
+      "seq": 4,
+      "request": {
+        "url": "{{SAP_URL}}",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"method\": \"tools/list\",\n  \"params\": {},\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "MCP notifications/cancelled",
+      "filename": "MCP notifications-cancelled.bru",
+      "seq": 3,
+      "request": {
+        "url": "{{SAP_URL}}",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"jsonrpc\": \"2.0\",\n  \"method\": \"notifications/cancelled\",\n  \"params\": {\n    \"requestId\": 1,\n    \"reason\": \"AbortError: This operation was aborted\"\n  }\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "MCP tools/call",
+      "filename": "MCP tools-call.bru",
+      "seq": 6,
+      "request": {
+        "url": "{{SAP_URL}}",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"set_shopfloor_led_color\",\n    \"arguments\": {\n      \"color\": \"red\",\n      \"context\": \"Bruno Demo\"\n    }\n  },\n  \"jsonrpc\": \"2.0\",\n  \"id\": 3\n}",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    }
+  ],
+  "environments": [],
+  "root": {
+    "request": {
+      "auth": {
+        "mode": "basic",
+        "basic": {
+          "username": "DEMO_HLAPI",
+          "password": "HlAPIDemo0.2-UseYourUserAndPasswordHere!"
+        }
+      },
+      "vars": {
+        "req": [
+          {
+            "name": "SAP_URL",
+            "value": "http://mcpa.demoserver.org:50000/zmcp/demo/zbc_hlapi_demo?sap-client=001&group=Bruno",
+            "enabled": true,
+            "local": false,
+            "uid": "rPnbKnwTnPDZi7NZFbwQA"
+          }
+        ]
+      }
+    }
+  },
+  "brunoConfig": {
+    "version": "1",
+    "name": "HLAPI Demo",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ],
+    "size": 0,
+    "filesCount": 0
+  }
+}

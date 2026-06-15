@@ -1,0 +1,20 @@
+meta {
+  name: MCP tools/list
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{SAP_URL}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "method": "tools/list",
+    "params": {},
+    "jsonrpc": "2.0",
+    "id": 1
+  }
+}

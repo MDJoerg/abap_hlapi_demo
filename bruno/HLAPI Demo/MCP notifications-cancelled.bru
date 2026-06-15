@@ -1,0 +1,22 @@
+meta {
+  name: MCP notifications/cancelled
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{SAP_URL}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "notifications/cancelled",
+    "params": {
+      "requestId": 1,
+      "reason": "AbortError: This operation was aborted"
+    }
+  }
+}
