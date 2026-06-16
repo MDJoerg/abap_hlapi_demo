@@ -5,10 +5,10 @@ INTERFACE zif_bc_hlapi_demo_def
   CONSTANTS con_default_rfcdest TYPE rfcdest VALUE 'EXT_ZBC_HLAPI_DEMO'.
 
   CONSTANTS: BEGIN OF con_api_path,
-               set_led_color TYPE string VALUE `/becSetColorLED`,
-               set_message TYPE string VALUE `/becSetMessage`,
+               set_led_color TYPE string VALUE `/v1/bcHLApiDemo/SetColorLED`,
+               set_message TYPE string VALUE `/v1/bcHLApiDemo/SetMessage`,
                set_progress TYPE string VALUE `/v1/bcHLApiDemo/SetProgress`,
-               get_weight    TYPE string VALUE `/becGetWeight`,
+               get_weight    TYPE string VALUE `/v1/bcHLApiDemo/GetWeight`,
              END OF con_api_path.
 
   TYPES: BEGIN OF ty_hlapi_result,
